@@ -15,7 +15,7 @@ margin-top: 24px;
 `;
 
 const Container = styled.div`
-  width: 60%;
+  width: 70%;
   margin: auto;
 `;
 
@@ -69,10 +69,19 @@ const MainComp = () => {
                   </StyledButton>
                 </div>
               </div>
-              <div style={{ display: 'flex'}}>
+              <div style={{ display: 'flex', flexWrap: 'wrap'}}>
               {
                 vessels.map((vessel, index) => (
-                  <Vessel key={index} vesselName={vessel.name} capacity={vessel.capacity} remainingSpace={vessel.remainingSpace} values={vessel.values}/> 
+                  <Vessel 
+                    key={index} 
+                    vesselName={vessel.name} 
+                    capacity={vessel.capacity} 
+                    remainingSpace={vessel.remainingSpace} 
+                    values={vessel.values}
+                    removeVessel={() => {
+                      setVessels((prev) => prev.filter((_, i) => i !== index));
+                    }}
+                  /> 
                 ))
               }
               </div>
