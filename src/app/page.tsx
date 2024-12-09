@@ -1,7 +1,7 @@
 import MainComp from "@/components/main";
 export default function Home() {
   return (
-    <div>
+    <div style={{ margin: '24px'}}>
       <MainComp />
     </div>
   );
