@@ -1,7 +1,7 @@
 "use client";
 
 import styled from "@emotion/styled";
-import { Button } from "antd";
+import { Button, Form } from "antd";
 import Input from "antd/es/input/Input";
 import { useEffect, useState } from "react";
 import Vessel from "./vessel";
@@ -15,7 +15,7 @@ margin-top: 24px;
 `;
 
 const Container = styled.div`
-  width: 60%;
+  width: 70%;
   margin: auto;
 `;
 
@@ -30,46 +30,62 @@ interface VesselI {
   values: number[];
 }
 const MainComp = () => {
-  const [numberOfBlocks, setNumberofBlocks] = useState<number>();
   const [val, setVal] = useState<number>();
   const [vessels, setVessels] = useState<VesselI[]>([]);
+
+  const handleAddVessel = (values: {vesselName: string, capacity: number}) => {
+    const newVessel = {capacity: values.capacity, remainingSpace: values.capacity, name: values.vesselName, values: []};
+    setVessels((prev) => [...prev, newVessel]);
+  }
 
   return (
     <Container>
       <div>
         <h1>Simulate First Fit Algorithm</h1>
-        {!numberOfBlocks && (
-          <div>
-            <h4 style={{ marginTop: "8px" }}>
-              To proceed please enter the number of blocks.
-            </h4>
-            <StyledInput
-              type="number"
-              placeholder="Enter the number of blocks"
-              value={numberOfBlocks}
-              onBlur={(e) => setNumberofBlocks(Number(e.target.value))}
-            />
-          </div>
-        )}
         <MainContainer>
-          {numberOfBlocks && (
             <div>
-              <StyledInput placeholder="Enter a value" id="currValue" value={val} onChange={(e) => setVal(Number(e.target.value))}/>
-              <StyledButton
-                type="primary"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                Add to a Vessel
-              </StyledButton>
+              <div style={{display: 'flex'}}>
+                <div style={{width: '50%', marginRight: '16px'}}>
+                  <Form onFinish={(values) => handleAddVessel(values)}>
+                    <Form.Item rules={[{required: true}]} name='vesselName'> 
+                      <StyledInput placeholder="Vessel Name"/>
+                    </Form.Item>
+                    <Form.Item rules={[{ required: true }]} name='capacity'>
+                      <StyledInput placeholder="Capacity" type="number"/>
+                    </Form.Item>
+                    <StyledButton htmlType="submit" type='primary'>Add Vessel</StyledButton>
+                  </Form>
+                </div>
+                <div>
+                  <StyledInput placeholder="Enter a value" id="currValue" value={val} onChange={(e) => setVal(Number(e.target.value))}/>
+                  <StyledButton
+                    type="primary"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                    disabled={vessels.length === 0}
+                  >
+                    Add to a Vessel
+                  </StyledButton>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap'}}>
               {
                 vessels.map((vessel, index) => (
-                  <Vessel vesselName={`Vessel`} capacity={100} /> 
+                  <Vessel 
+                    key={index} 
+                    vesselName={vessel.name} 
+                    capacity={vessel.capacity} 
+                    remainingSpace={vessel.remainingSpace} 
+                    values={vessel.values}
+                    removeVessel={() => {
+                      setVessels((prev) => prev.filter((_, i) => i !== index));
+                    }}
+                  /> 
                 ))
               }
+              </div>
             </div>
-          )}
         </MainContainer>
       </div>
     </Container>
