@@ -3,7 +3,7 @@
 import styled from "@emotion/styled";
 import { Button, Form } from "antd";
 import Input from "antd/es/input/Input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Vessel from "./vessel";
 import { useForm } from "antd/es/form/Form";
 
@@ -16,7 +16,7 @@ margin-top: 24px;
 `;
 
 const Container = styled.div`
-  width: 70%;
+  width: 60%;
   margin: auto;
 `;
 
@@ -40,6 +40,8 @@ const MainComp = () => {
     setVessels((prev) => [...prev, newVessel]);
   }
 
+  // Vessels are iterated and the remaining space is checked to see 
+  // if the value can be added to the vessel
   const handleAddValue = (value: number, vessels: VesselI[]) => {
     setVessels((prevVessels) => {
       const updatedVessels = [...prevVessels];

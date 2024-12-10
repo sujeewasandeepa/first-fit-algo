@@ -29,7 +29,13 @@ const RemoveBtn = styled.div`
   }
 `
 
-const Vessel:FC<Props> = ({vesselName, capacity, values, remainingSpace, removeVessel}) => {
+const Vessel:FC<Props> = ({
+  vesselName, 
+  capacity, 
+  values, 
+  remainingSpace, 
+  removeVessel
+}) => {
 
   return (
     <div style={{marginTop: '24px'}}>
