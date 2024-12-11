@@ -1,7 +1,6 @@
-  // Vessels are iterated and the remaining space is checked to see 
-
 import { VesselI } from "@/types/vessel.interface";
-
+  
+  // Vessels are iterated and the remaining space is checked to see 
   // if the value can be added to the vessel
   export const firstFit = (value: number, vessels: VesselI[]): VesselI[] => {
     const updatedVessels = [...vessels];
