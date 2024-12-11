@@ -38,7 +38,7 @@ const MainComp = () => {
   }
 
 
-  const handleAddValue = (value: number, vessels: VesselI[]) => {
+  const handleAddValue = (value: number) => {
     setVessels((prevVessels) => {
       return firstFit(value, prevVessels);
     });
@@ -71,7 +71,7 @@ const MainComp = () => {
                   style={{ marginTop: '32px'}}
                     type="primary"
                     onClick={() => {
-                      if (val) handleAddValue(val, vessels);
+                      if (val) handleAddValue(val);
                     }}
                     disabled={vessels.length === 0}
                   >
