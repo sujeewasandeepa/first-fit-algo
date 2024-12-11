@@ -3,8 +3,11 @@
 import styled from "@emotion/styled";
 import { Button, Form } from "antd";
 import Input from "antd/es/input/Input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Vessel from "./vessel";
+import { useForm } from "antd/es/form/Form";
+import { VesselI } from "@/types/vessel.interface";
+import { firstFit } from "@/utils/firstFit";
 
 const StyledInput = styled(Input)`
   margin-top: 8px;
@@ -15,28 +18,31 @@ margin-top: 24px;
 `;
 
 const Container = styled.div`
-  width: 70%;
+  width: 60%;
   margin: auto;
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 16px;
 `;
 
-interface VesselI {
-  capacity: number;
-  remainingSpace: number;
-  name: string;
-  values: number[];
-}
+
 const MainComp = () => {
   const [val, setVal] = useState<number>();
   const [vessels, setVessels] = useState<VesselI[]>([]);
+
+  const [form] = useForm();
 
   const handleAddVessel = (values: {vesselName: string, capacity: number}) => {
     const newVessel = {capacity: values.capacity, remainingSpace: values.capacity, name: values.vesselName, values: []};
     setVessels((prev) => [...prev, newVessel]);
   }
+
+
+  const handleAddValue = (value: number) => {
+    setVessels((prevVessels) => {
+      return firstFit(value, prevVessels);
+    });
+  };
 
   return (
     <Container>
@@ -46,7 +52,10 @@ const MainComp = () => {
             <div>
               <div style={{display: 'flex'}}>
                 <div style={{width: '50%', marginRight: '16px'}}>
-                  <Form onFinish={(values) => handleAddVessel(values)}>
+                  <Form form={form} onFinish={(values) => {
+                    handleAddVessel(values);
+                    form.resetFields(); 
+                  }}>
                     <Form.Item rules={[{required: true}]} name='vesselName'> 
                       <StyledInput placeholder="Vessel Name"/>
                     </Form.Item>
@@ -59,9 +68,10 @@ const MainComp = () => {
                 <div>
                   <StyledInput placeholder="Enter a value" id="currValue" value={val} onChange={(e) => setVal(Number(e.target.value))}/>
                   <StyledButton
+                  style={{ marginTop: '32px'}}
                     type="primary"
-                    onClick={(e) => {
-                      e.preventDefault();
+                    onClick={() => {
+                      if (val) handleAddValue(val);
                     }}
                     disabled={vessels.length === 0}
                   >
