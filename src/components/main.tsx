@@ -6,6 +6,8 @@ import Input from "antd/es/input/Input";
 import { useState } from "react";
 import Vessel from "./vessel";
 import { useForm } from "antd/es/form/Form";
+import { VesselI } from "@/types/vessel.interface";
+import { firstFit } from "@/utils/firstFit";
 
 const StyledInput = styled(Input)`
   margin-top: 8px;
@@ -23,12 +25,7 @@ const Container = styled.div`
 const StyledButton = styled(Button)`
 `;
 
-interface VesselI {
-  capacity: number;
-  remainingSpace: number;
-  name: string;
-  values: number[];
-}
+
 const MainComp = () => {
   const [val, setVal] = useState<number>();
   const [vessels, setVessels] = useState<VesselI[]>([]);
@@ -40,22 +37,10 @@ const MainComp = () => {
     setVessels((prev) => [...prev, newVessel]);
   }
 
-  // Vessels are iterated and the remaining space is checked to see 
-  // if the value can be added to the vessel
+
   const handleAddValue = (value: number, vessels: VesselI[]) => {
     setVessels((prevVessels) => {
-      const updatedVessels = [...prevVessels];
-      for (let i = 0; i < updatedVessels.length; i++) {
-        if (updatedVessels[i].remainingSpace >= value) {
-          updatedVessels[i] = {
-            ...updatedVessels[i],
-            values: [...updatedVessels[i].values, value],
-            remainingSpace: updatedVessels[i].remainingSpace - value,
-          };
-          break; 
-        }
-      }
-      return updatedVessels;
+      return firstFit(value, prevVessels);
     });
   };
 
