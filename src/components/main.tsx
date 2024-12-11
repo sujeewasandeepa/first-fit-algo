@@ -33,7 +33,12 @@ const MainComp = () => {
   const [form] = useForm();
 
   const handleAddVessel = (values: {vesselName: string, capacity: number}) => {
-    const newVessel = {capacity: values.capacity, remainingSpace: values.capacity, name: values.vesselName, values: []};
+    const newVessel = {
+      capacity: values.capacity, 
+      remainingSpace: values.capacity, 
+      name: values.vesselName, 
+      values: []
+    };
     setVessels((prev) => [...prev, newVessel]);
   }
 

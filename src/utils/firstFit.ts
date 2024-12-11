@@ -4,6 +4,7 @@ import { VesselI } from "@/types/vessel.interface";
   // if the value can be added to the vessel
   export const firstFit = (value: number, vessels: VesselI[]): VesselI[] => {
     const updatedVessels = [...vessels];
+
     for (let i = 0; i < updatedVessels.length; i++) {
       if (updatedVessels[i].remainingSpace >= value) {
         updatedVessels[i] = {
