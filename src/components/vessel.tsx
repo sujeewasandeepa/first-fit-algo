@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 
 interface Props {
   vesselName: string;
