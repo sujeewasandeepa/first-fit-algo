@@ -3,9 +3,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Getting Started
 
 Clone the repository.
-Run `npm install`.
-Run `npm run build` to build the project.
-Run `npm run start` to start the built app. 
+- Run `npm install`.
+- Run `npm run build` to build the project.
+- Run `npm run start` to start the built app. 
 
 ## Deploy on Vercel
 
